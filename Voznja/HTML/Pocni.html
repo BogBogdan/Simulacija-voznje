@@ -2,24 +2,42 @@
 <html>
     
     <head>
-        <title>Volan</title>   
+        <title>Slimulacija voznje</title>
+			
     </head>
     
     <style>
-    canvas{
-         border: 2px solid black;
+    canvas
+		{
+			border: 2px solid black;
         }
+		.center
+		{
+			padding: 70px 0;
+			text-align: center;
+		}
+		body {
+			background-image: url('../src/pozadina.png');
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			background-size: 100% 100%;
+			 }
     </style>
     
     <body>
-       
-
+		
+		<div class="center">
+		<img src="../src/Levo.png" width="141" height="141" id="id_levo">
+		<img src="../src/auto/8.png" width="200" height="100" id="id_auta">
+		<img src="../src/Desno.png" width="141" height="141" id="id_desno">
+		<br>
+		<button id="id_dugmeta" type="button" onclick="pocni()">START</button>
         <canvas id="canvas" width='900' height='900' style='position:absolute; left:0px; top:0px;'></canvas>
-        
+		</div>
+ 
+			<script src="../Js/Biranjekola.js"></script>
+    
+		
 
-			<script src="../Js/Teren.js"></script>
-			<script src="../Js/Oretanje.js"></script>
-			<script src="../Js/Ceoekran.js"></script>
-        
     </body>
 </html>
