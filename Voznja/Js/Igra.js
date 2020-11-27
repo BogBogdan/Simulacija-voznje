@@ -18,9 +18,13 @@ var usporava = false;
 var x=0, y=0;
 
 var krajige = 0;
-var y = 500;
-var x = 500;
+var y = window.innerHeight/2;
+var x = window.innerWidth/2;
 var trans = 500;
+
+//Kraj deklaracije
+
+const ctx = canvas.getContext("2d");
 
   pozadina();
   function pozadina()
@@ -50,9 +54,6 @@ document.onkeyup = function (e) {
 	}
 }
 
-
-
-var c = document.getElementById("canvas");
 document.onmousedown = function () {
 	++mouseDown;
 	const bounds = canvas.getBoundingClientRect();
@@ -63,8 +64,7 @@ document.onmouseup = function () {
 	--mouseDown;
 }
 
-const ctx = canvas.getContext("2d");
-// create mouse event listener
+//create mouse event listener
 const mouse = { x: 0, y: 0 };
 function mouseEvents(e) {
 	if (mouseDown == 1) {
@@ -103,8 +103,8 @@ document.addEventListener("touchmove", function (e) {
 	});
 	document.dispatchEvent(mouseEvent);
 }, false);
-// Get the position of a touch relative to the canvas
-// draw design at x,y and rotated by angle
+
+//drawing
 function drawRotated(slika, x, y, w, h, angle) {
 	ctx.setTransform(1, 0, 0, 1, x, y);
 	ctx.rotate(angle);
@@ -123,23 +123,36 @@ function upd() {
 	if (mouseDown&&Math.abs(Math.atan2(mouse.y - (window.innerHeight/2+window.innerHeight/3), mouse.x - (window.innerWidth/2+window.innerWidth/3)))<(Math.PI/2+Math.PI/3))
 		angle = Math.atan2(mouse.y - (window.innerHeight/2+window.innerHeight/3), mouse.x - (window.innerWidth/2+window.innerWidth/3));
 
-	x += brzina * Math.cos(ugao);
-	y += brzina * Math.sin(ugao);
+
+	//x-borders
+	if(x>window.innerWidth/2+490)
+		x = window.innerWidth/2+490;
+	else if(x<window.innerWidth/2-490)
+		x = window.innerWidth/2-490;
+	else
+		x -= brzina * Math.cos(ugao);
+	
+	//y-borders
+	if(y>window.innerHeight/2+300)
+		y = window.innerHeight/2+300;
+	else if(y<window.innerHeight/2-260)
+		y = window.innerHeight/2-260;
+	else
+		y -= brzina * Math.sin(ugao);
 	ugao += angle / 200;
 }
 function rnd() {
-	ctx.setTransform(1, 0, 0, 1, 0, 0); // reset transform
+	ctx.setTransform(1, 0, 0, 1, 0, 0); //reset transform
 	ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-	drawRotated(mapa, window.innerWidth/2, window.innerHeight/2, window.innerWidth, window.innerHeight, 0);
-	drawRotated(kola, x, y, 100, 50, ugao);
+	drawRotated(mapa, x, y, 2500,1406, 0);
+	drawRotated(kola,  window.innerWidth/2,  window.innerHeight/2, 100, 50, ugao);
 	drawRotated(volan, window.innerWidth/2+window.innerWidth/3, window.innerHeight/2+window.innerHeight/3, wvolan, hvolan, angle);
 }
-// render loop called 60 times a second
+//render
 function update(timer) {
 	upd();
 	rnd();
-	// get angle from center to mouse
-	// draw rotated design
+	//update
 	requestAnimationFrame(update);
 }
 requestAnimationFrame(update);
